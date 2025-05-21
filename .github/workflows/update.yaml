@@ -1,8 +1,9 @@
 name: Update Zen Browser Version
 
 on:
+  push:
   schedule:
-    - cron: "0 0 * * *" # Run daily at midnight
+    - cron: "0 0 * * *" # Run daily at midnight UTC
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -47,9 +48,8 @@ jobs:
           sed -i '/generic/,/sha256/s/sha256 = "sha256:[^"]*"/sha256 = "sha256:'$generic'"/' flake.nix
           cat flake.nix
           nix flake update
-      - name: Commit and push if changed
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add flake.nix
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: bump Zen Browser to ${{ steps.extract_version.outputs.VERSION }}" && git push)
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: bump zen-browser version to ${{ steps.extract_version.outputs.VERSION }}"
