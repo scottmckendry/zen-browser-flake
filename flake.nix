@@ -9,7 +9,7 @@
     { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      version = "1.19.3b";
+      version = "1.19.5b";
       download = {
         url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz";
         sha256 = "sha256:0x7s0jwgai7vadb0mcwyjvp9pgy93r6n8av9dkxvgas4sk0awsyd";
